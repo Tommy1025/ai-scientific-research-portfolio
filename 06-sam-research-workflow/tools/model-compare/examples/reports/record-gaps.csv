@@ -1,0 +1,7 @@
+﻿"來源群組","Ref","資料點","配對等級","已收錄資料列與 PCE","未收錄模型","缺漏摘要"
+"Li ML","3","2PACz","single","AI extraction: 3-2PACz(control) (PCE 23.43)","Published reference","有：AI extraction；無：Published reference"
+"Li ML","3","MPA-CPA","single","AI extraction: 3-MPA-CPA(champion) (PCE 25.16)","Published reference","有：AI extraction；無：Published reference"
+"Li ML","5","2PACz","single","Published reference: 5-2PACz(concentration(mg/ml):0.1) (PCE 20.1)","AI extraction","有：Published reference；無：AI extraction"
+"Li ML","5","9CPA","single","Published reference: 5-9CPA(concentration(mg/ml):0.3) (PCE 22.1)","AI extraction","有：Published reference；無：AI extraction"
+"Li ML","9","CbzNaph","single","AI extraction: 9-CbzNaph(champion) (PCE 24.1)","Published reference","有：AI extraction；無：Published reference"
+"Li ML","34","BCBBr-C4PA","single","Published reference: 34-BCBBr-C4PA (PCE 18.63)","AI extraction","有：Published reference；無：AI extraction"

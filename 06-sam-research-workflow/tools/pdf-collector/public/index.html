@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SAM Reference PDF Collector</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">LOCAL RESEARCH TOOL</p>
+      <h1>SAM Reference PDF Collector</h1>
+      <p class="lede">從一篇來源論文，批次找回指定 references 的主文 PDF 與 SI。</p>
+    </div>
+    <div class="privacy-pill">只在 127.0.0.1 執行</div>
+  </header>
+
+  <main>
+    <section class="card setup-card" aria-labelledby="setup-title">
+      <div class="section-heading">
+        <div><span class="step">01</span><h2 id="setup-title">本機設定與 VPN</h2></div>
+        <button id="refresh-vpn" class="button ghost" type="button">重新檢查</button>
+      </div>
+      <div class="setup-grid">
+        <label>聯絡 email <span class="hint">供 Crossref polite pool 與 Unpaywall 使用</span>
+          <span class="inline-field"><input id="email" type="email" autocomplete="email" placeholder="name@example.com"><button id="save-settings" class="button" type="button">儲存</button></span>
+        </label>
+        <div id="vpn-panel" class="vpn-panel" aria-live="polite"><span class="dot neutral"></span><strong>正在檢查 VPN…</strong></div>
+      </div>
+      <p class="microcopy">BIG-IP Edge 請由你手動登入。程式不會讀取或保存學校帳密；連線後按「重新檢查」。</p>
+      <div class="recent-jobs">
+        <label>最近工作
+          <select id="recent-job"><option value="">尚無工作</option></select>
+        </label>
+        <button id="open-job" class="button ghost" type="button" disabled>開啟工作</button>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="api-title">
+      <div class="section-heading">
+        <div><span class="step">API</span><h2 id="api-title">文獻 API 與全文授權</h2></div>
+        <button id="refresh-apis" class="button ghost" type="button">重新檢查 API</button>
+      </div>
+      <p class="microcopy">金鑰只從子專案的 <code>.env</code> 讀取，不會傳到前端、工作報告或 ZIP。缺少的服務可按「申請／說明」前往官方網站。</p>
+      <div id="api-summary" class="api-summary" aria-live="polite">正在讀取 API 設定…</div>
+      <div id="api-grid" class="api-grid"></div>
+    </section>
+
+    <section class="card" aria-labelledby="source-title">
+      <div class="section-heading"><div><span class="step">02</span><h2 id="source-title">加入來源論文</h2></div></div>
+      <div class="tabs" role="tablist" aria-label="來源輸入方式">
+        <button class="tab active" type="button" role="tab" aria-selected="true" data-tab="upload">上傳 PDF</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-tab="url">論文連結</button>
+      </div>
+      <form id="source-form">
+        <input id="input-type" name="inputType" type="hidden" value="upload">
+        <div id="upload-pane" class="tab-pane">
+          <label class="dropzone" for="pdf"><span class="drop-title">選擇一篇來源 PDF</span><span id="file-name">最大 100 MB</span><input id="pdf" name="pdf" type="file" accept="application/pdf,.pdf"></label>
+        </div>
+        <div id="url-pane" class="tab-pane hidden">
+          <label>論文網址<input id="paper-url" name="url" type="url" placeholder="https://doi.org/10.… 或出版社頁面"></label>
+        </div>
+        <button id="analyze-source" class="button primary" type="submit">解析來源與 references</button>
+      </form>
+      <div id="source-message" class="message hidden" aria-live="polite"></div>
+    </section>
+
+    <section id="references-section" class="card hidden" aria-labelledby="refs-title">
+      <div class="section-heading"><div><span class="step">03</span><h2 id="refs-title">確認 references</h2></div><span id="ref-count" class="count"></span></div>
+      <div id="paper-meta" class="paper-meta"></div>
+      <div class="selector-row">
+        <div class="collection-options">
+          <label>要蒐集的 ref
+            <input id="ref-spec" type="text" value="全部" placeholder="全部、1-30 或 1-30,50-60,72">
+          </label>
+          <label>蒐集範圍
+            <select id="retrieval-mode">
+              <option value="main_only" selected>只蒐集主文（預設）</option>
+              <option value="main_and_si">蒐集主文＋SI</option>
+            </select>
+          </label>
+          <span class="hint">主文模式不發出 SI discovery；選擇主文＋SI 時，每篇最多保存兩份通過內容驗證的 SI。</span>
+        </div>
+        <button id="start-job" class="button primary" type="button">開始蒐集主文</button>
+      </div>
+      <details>
+        <summary>預覽 reference 清單</summary>
+        <ol id="reference-list" class="reference-list"></ol>
+      </details>
+    </section>
+
+    <section id="job-section" class="card hidden" aria-labelledby="job-title">
+      <div class="section-heading"><div><span class="step">04</span><h2 id="job-title">蒐集結果</h2></div><span id="job-state" class="state-badge">等待中</span></div>
+      <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
+      <p id="job-message" class="job-message" aria-live="polite"></p>
+      <div class="stats">
+        <div><span id="stat-selected">0</span><small>已選 ref</small></div>
+        <div><span id="stat-collected">0</span><small>已取得</small></div>
+        <div><span id="stat-locked">0</span><small>鎖定／失敗</small></div>
+        <div><span id="stat-si-refs">0</span><small>取得 SI 的 refs</small></div>
+        <div><span id="stat-si-files">0</span><small>SI 檔案</small></div>
+        <div><span id="stat-si-failed">0</span><small>SI 下載失敗</small></div>
+      </div>
+      <div class="action-row">
+        <button id="retry-job" class="button" type="button">只重試主文</button>
+        <a id="download-zip" class="button primary disabled" aria-disabled="true">下載全部 ZIP</a>
+        <a id="download-report" class="button ghost disabled" aria-disabled="true">CSV 報告</a>
+        <button id="delete-job" class="button danger" type="button">刪除工作</button>
+        <button id="clear-cache" class="button ghost" type="button">清除快取</button>
+      </div>
+      <div class="table-wrap">
+        <table><thead><tr><th>Ref</th><th>主文狀態</th><th>SI</th><th>DOI</th><th>來源</th><th>說明</th></tr></thead><tbody id="result-body"></tbody></table>
+      </div>
+    </section>
+  </main>
+  <footer>不使用 AI API · 不自動處理 CAPTCHA、SSO 或互動登入 · 工作保留至手動刪除</footer>
+  <div id="toast" class="toast hidden" role="status"></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

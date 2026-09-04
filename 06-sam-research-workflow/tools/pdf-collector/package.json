@@ -1,0 +1,32 @@
+{
+  "name": "sam-reference-pdf-collector",
+  "version": "0.7.0",
+  "private": true,
+  "type": "module",
+  "description": "本機執行的 SAM 論文參考文獻主文與 SI 蒐集器",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node --use-system-ca server.js",
+    "test": "node --test --test-reporter=spec",
+    "browser:install": "node scripts/install-browser.js",
+    "revalidate:main": "node --use-system-ca scripts/revalidate-main.js",
+    "smoke:si": "node --use-system-ca scripts/smoke-si.js 10.1038/s41586-025-09333-z 10.1021/acsnano.5c01479",
+    "smoke:main": "node --use-system-ca scripts/smoke-main.js"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.80",
+    "@rdkit/rdkit": "^2025.3.4-1.0.0",
+    "adm-zip": "^0.6.0",
+    "archiver": "^7.0.1",
+    "cheerio": "^1.1.2",
+    "exceljs": "^4.4.0",
+    "express": "^5.1.0",
+    "multer": "^2.0.2",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^5.4.624",
+    "playwright": "^1.56.0",
+    "word-extractor": "^1.0.4"
+  }
+}

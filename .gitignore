@@ -1,0 +1,80 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+service-account*.json
+
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache / build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Node / web runtime
+node_modules/
+.npm-cache/
+.next/
+.wrangler/
+.playwright-browsers/
+.tools/
+
+# Local ADK / generated runtime files
+.adk/
+*.log
+
+# Local paper inputs and generated extraction output
+papers/
+knowledge_base.json
+
+# Perovskite ML data: raw database export and generated outputs stay local
+05-ml-reproduction/data/raw/*
+!05-ml-reproduction/data/raw/.gitkeep
+05-ml-reproduction/data/cleaned/*
+!05-ml-reproduction/data/cleaned/.gitkeep
+05-ml-reproduction/data/predictions/*
+!05-ml-reproduction/data/predictions/.gitkeep
+
+# SAM workflow generated outputs
+06-sam-research-workflow/tools/pdf-collector/data/
+06-sam-research-workflow/workflow/validation/validation_metrics.csv
+06-sam-research-workflow/workflow/preprocessing/first_preprocessed_csv/csv/
+06-sam-research-workflow/workflow/preprocessing/first_preprocessed_csv/json/
+06-sam-research-workflow/workflow/preprocessing/second_preprocessed_csv/csv/
+06-sam-research-workflow/workflow/preprocessing/third_preprocessed_csv/csv/
+06-sam-research-workflow/workflow/preprocessing/third_preprocessed_csv/dataset.csv
+06-sam-research-workflow/workflow/preprocessing/third_preprocessed_csv/preprocessing_audit.json
+06-sam-research-workflow/workflow/preprocessing/third_preprocessed_csv/preprocessing_report.md
+06-sam-research-workflow/workflow/preprocessing/third_preprocessed_csv/missingness_summary.svg
+06-sam-research-workflow/workflow/preprocessing/third_preprocessed_csv/molecule_summary.jsonl
+
+# IDE / editor
+.vscode/
+.idea/
+.github/
+*.swp
+*.swo
+
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini

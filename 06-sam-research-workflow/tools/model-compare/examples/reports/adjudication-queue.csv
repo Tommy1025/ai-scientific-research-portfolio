@@ -1,0 +1,7 @@
+﻿"來源群組","Ref","衝突類型","嚴重度","標題","細節","模型","裁決","依據／備註"
+"Li ML","3","RECORD_GAP","review","Ref 3「2PACz」只被部分模型收錄","有：AI extraction；無：Published reference","AI extraction | Published reference","待查核",""
+"Li ML","3","RECORD_GAP","review","Ref 3「MPA-CPA」只被部分模型收錄","有：AI extraction；無：Published reference","AI extraction | Published reference","待查核",""
+"Li ML","5","DOI_CONFLICT","critical","Ref 5 對應到不同 DOI","10.1016/j.joule.2024.02.019 ↔ 10.1002/adma.202312264","AI extraction | Published reference","待查核",""
+"Li ML","5","INCLUSION_CONFLICT","critical","Ref 5 的收錄決策衝突","Published reference：已收錄；AI extraction：排除","Published reference | AI extraction","待查核",""
+"Li ML","5","RECORD_GAP","review","Ref 5「2PACz」只被部分模型收錄","有：Published reference；無：AI extraction","Published reference | AI extraction","待查核",""
+"Li ML","34","DOI_CONFLICT","critical","Ref 34 對應到不同 DOI","10.1038/s41467-024-55492-4 ↔ 10.1002/aenm.202300694","AI extraction | Published reference","待查核",""
